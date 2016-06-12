@@ -3,14 +3,10 @@ package com.google.kurachi.shintaro.aiwolf2;
 import org.aiwolf.client.base.player.AbstractPossessed;
 import org.aiwolf.client.lib.TemplateTalkFactory;
 import org.aiwolf.client.lib.Utterance;
-import org.aiwolf.common.data.Agent;
-import org.aiwolf.common.data.Judge;
-import org.aiwolf.common.data.Species;
-import org.aiwolf.common.data.Talk;
+import org.aiwolf.common.data.*;
 import org.aiwolf.common.net.GameInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DekoPossessed extends AbstractPossessed {
@@ -18,11 +14,13 @@ public class DekoPossessed extends AbstractPossessed {
     boolean isTodayToldFakeJudge = false;
     List<Judge> myToldFakeJudgeList = new ArrayList<>();
     List<Talk> todaysTalks = new ArrayList<>();
+    Map<Role, List<Agent>> comingOutAgents = new HashMap<>();
 
     @Override
     public void finish() {
         isComingOut = false;
         myToldFakeJudgeList = new ArrayList<>();
+        comingOutAgents = new HashMap<>();
     }
 
     @Override
@@ -94,6 +92,11 @@ public class DekoPossessed extends AbstractPossessed {
 
             switch(utterance.getTopic()) {
                 case COMINGOUT:
+                    if (comingOutAgents.containsKey(utterance.getRole())) {
+                        comingOutAgents.get(utterance.getRole()).add(utterance.getTarget());
+                    } else {
+                        comingOutAgents.put(utterance.getRole(), Arrays.asList(utterance.getTarget()));
+                    }
                     break;
                 case DIVINED:
                     break;
