@@ -48,7 +48,7 @@ public class DekoPossessed extends AbstractPossessed {
                     .count();
 
             Species fakeResult = Species.WEREWOLF;
-            if(countToldFakeAgentAsWerewolf >= Const.WereWolfCount) {
+            if(countToldFakeAgentAsWerewolf >= getGameSetting().getRoleNum(Role.WEREWOLF)) {
                 fakeResult = Species.HUMAN;
             }
 
