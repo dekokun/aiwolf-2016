@@ -42,11 +42,19 @@ public class DekoPossessed extends AbstractPossessed {
             List<Agent> myToldFakeAgents = myToldFakeJudgeList.stream()
                     .map(judge -> judge.getAgent()).collect(Collectors.toList());
 
+            long countToldFakeAgentAsWerewolf = myToldFakeJudgeList
+                    .stream()
+                    .filter(judge -> judge.getResult() == Species.WEREWOLF)
+                    .count();
+
+            Species fakeResult = Species.WEREWOLF;
+            if(countToldFakeAgentAsWerewolf >= Const.WereWolfCount) {
+                fakeResult = Species.HUMAN;
+            }
 
             fakeJudgeCandidates.removeAll(myToldFakeAgents);
             Agent fakeAgent = Util.randomSelect(fakeJudgeCandidates);
             isTodayToldFakeJudge = true;
-            Species fakeResult = Species.WEREWOLF;
             Judge fakeJudge = new Judge(getLatestDayGameInfo().getDay(), getMe(), fakeAgent, fakeResult);
             myToldFakeJudgeList.add(fakeJudge);
             return TemplateTalkFactory.divined(fakeAgent, fakeResult);
