@@ -48,9 +48,9 @@ public class DekoSeer extends AbstractSeer {
         if(!isComingOut) {
             for(Judge judge: getMyJudgeList()) {
                 if(judge.getResult() == Species.WEREWOLF) {
-                    String comingoutTalk = TemplateTalkFactory.comingout(getMe(), getMyRole());
+                    String comingOutTalk = TemplateTalkFactory.comingout(getMe(), getMyRole());
                     isComingOut = true;
-                    return comingoutTalk;
+                    return comingOutTalk;
                 }
             }
         } else {
